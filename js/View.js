@@ -1,5 +1,32 @@
 /* functions for the view */
 
+// handle a semester Filter event
+function semesterFilter(eventObject){
+    // jquery selector to find all the courses to hide. Note using the '*=' for selection.
+    var selector = ".row.course[data-semester*='" + eventObject.currentTarget.value +"']";
+    if(eventObject.currentTarget.checked){
+        $(selector).slideDown();
+    }else{
+        $(selector).slideUp();
+    }
+
+}
+
+// populate semesterFilter Form
+function buildSemesterFilter(semesterList){
+    var semesterListHTML="";
+    var temp="";
+    for(var i=0;i<semesterList.length;i++){
+        temp = '<input type="checkbox" value="' + semesterList[i] + '" class="semesterFilter" checked><label>'+ termDisplay(semesterList[i]) +'</label>';
+        semesterListHTML = semesterListHTML+temp + "<br/>";
+    }
+    $("#semesterList")[0].innerHTML = semesterListHTML;
+
+    // add listeners to the filter options
+    $(".semesterFilter").on('click',semesterFilter);
+
+}
+
 // Displays Modal window after click on Details button
 function displayCourseDetail(eventObject){
   eventObject.preventDefault();
@@ -73,21 +100,21 @@ function displayCourseDetail(eventObject){
       }
      return finalText;
   }
+}
 
-  function termDisplay(term){
+
+function termDisplay(term){
     var temp =   term.split("_").reverse();
     temp[0] = temp[0].charAt(0).toUpperCase() + temp[0].slice(1);
     return temp.join(" ");
-  }
 }
-
 
 
 // callback function once JSON has been loaded
 function displayCourses(courseData){
     // generate the html for the courses
     function generateCourseHTML(id, course){
-        var html = '<div class="row">' +
+        var html = '<div class="row course" data-semester="'+ Object.keys(course.terms).join(",") + '">' +
             '<div class="large-12 columns">' +
             '<div class="callout panel"><p><strong>' +   course.course_name + ' | ' + course.course_title  +
             '</strong> <br>' + course.course_desc + '</p>' +
@@ -113,6 +140,10 @@ function displayCourses(courseData){
     $('.detailsButton').on("click",displayCourseDetail);
 
 
+
+
 }
+
+
 
 

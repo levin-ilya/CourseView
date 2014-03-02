@@ -20,12 +20,17 @@
     
 
     <div class="row">
-        <div class="large-2 column">
+        <div class="large-3 column">
             <div class="panel">
-                Filter
+                <h4>Filter</h4>
+                <hr>
+                <h6 class="subheader">Semesters</h6>
+                <div id="semesterList">
+                    Loading...
+                </div>
             </div>
         </div>
-      <div class="large-10 medium-8 columns">
+      <div class="large-9 medium-8 columns">
 
             <!-- List of courses  -->
         <div id="courseList">
@@ -48,10 +53,11 @@
         <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
         <a class="close-reveal-modal">&#215;</a>
     </div>
-
+    <script src="js/Set.js"></script>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/View.js"></script>
+    <script src="js/Controller.js"></script>
     <script>
       $(document).foundation();
 
@@ -59,7 +65,9 @@
 
           window.ilevin = {};
           ilevin.courseApp = new Courses()
-          ilevin.courseApp.loadData("data/Courses.json",displayCourses);
+          ilevin.courseApp.loadData("data/Courses.json",setupView);
+
+
       });
     </script>
   </body>
