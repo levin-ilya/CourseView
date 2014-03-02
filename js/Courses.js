@@ -18,8 +18,8 @@ function Courses(){
     this.getAllSemesters = function(){
         // find all the semesters from the data set
         semesterList =  new Set();
-        for(course in courseData){
-            for(term in courseData[course].terms){
+        for(var course in courseData){
+            for(var term in courseData[course].terms){
                semesterList.add(term);
             }
         }

@@ -102,7 +102,7 @@ function displayCourseDetail(eventObject){
   }
 }
 
-
+// takes a term - 2013_fall and returns Fall 2013
 function termDisplay(term){
     var temp =   term.split("_").reverse();
     temp[0] = temp[0].charAt(0).toUpperCase() + temp[0].slice(1);
