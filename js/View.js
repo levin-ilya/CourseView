@@ -10,10 +10,74 @@ function displayCourseDetail(eventObject){
     $('#detailsPopup').foundation('reveal', 'open');
   function generateCourseDetailHTML(course){
       var html = '<h2>' + course.course_name + ' | ' + course.course_title  + '</h2>' +
-                  '<p class="lead">' + course.course_desc + '</p>' +
+                  '<p>' + course.course_desc + '</p>' +
+                  // Course History
+                  generateCourseHistory(course.terms) +
                   '<a class="close-reveal-modal">&#215;</a>';
 
       return html;
+  }
+
+  function generateCourseHistory(terms){
+     var html =    '<table>'  +
+        ' <thead>'  +
+             '<tr>'  +
+                 '<th>Semester</th>' +
+                 '<th>Instructors</th>' +
+                 '<th>Schedule</th>' +
+             '</tr>'  +
+         '</thead>'  +
+         '<tbody>'  +
+             generateHistoryRows(terms) +
+         '</tbody>'   +
+         '</table>'
+      return html;
+  }
+
+  function generateHistoryRows(terms){
+      var html = "";
+      var appendString;
+      for(term in terms){
+         if(terms.hasOwnProperty(term)){
+             appendString =
+                 '<tr>'  +
+                 '<td>' +  termDisplay(term) + '</td>' +
+                 '<td>' + displayInstructors(terms[term].instructors) + '</td>'  +
+                 '<td>'  +
+                    generateSchedule(terms[term].meet_times)  +
+                 '</td>'   +
+                 '</tr>'
+             html = html + appendString;
+         }
+      }
+      return html;
+  }
+
+  function displayInstructors(instructors){
+
+     return instructors.length==0 ? "N/A" : instructors.join("<br>");
+  }
+
+  function generateSchedule(meeting_times){
+      var finalText = "";
+      var appendText;
+      if(meeting_times.length==0){
+          return "N/A";
+      }
+      for(var i=0;i<meeting_times.length;i++){
+          appendText =  meeting_times[i].weekDay + " " + meeting_times[i].startTime.substr(0,5) + "-" + meeting_times[i].endTime.substr(0,5) + " "  ;
+          if(meeting_times[i].building != "" && meeting_times[i].building != "unknown"){
+              meeting_times[i].building + " Rm:" + meeting_times[i].room ;
+          }
+          finalText = finalText + appendText + "<br>";
+      }
+     return finalText;
+  }
+
+  function termDisplay(term){
+    var temp =   term.split("_").reverse();
+    temp[0] = temp[0].charAt(0).toUpperCase() + temp[0].slice(1);
+    return temp.join(" ");
   }
 }
 
