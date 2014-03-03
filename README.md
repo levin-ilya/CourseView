@@ -7,7 +7,7 @@ display a modal window where you can see the history of the course.
 Solution
 ========
 
-- I used Foundatation for the layout and modal window
+- Foundatation was used the layout and modal window
 - Mustash was used to dynamically render some the HTML
 - Break down of important Files:
    - index.html - Main HTML / Javascript starts here
