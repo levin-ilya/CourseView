@@ -1,14 +1,36 @@
 function Filter (){
     // handle a semester Filter event
     this.semesterFilter = function(eventObject){
-        // jquery selector to find all the courses to hide. Note using the '*=' for selection.
-        var selector = ".row.course[data-semester*='" + eventObject.currentTarget.value +"']";
-        if(eventObject.currentTarget.checked){
-            $(selector).slideDown();
-        }else{
-            $(selector).slideUp();
-        }
+      // get all selected semesters filters
+        var selectedSemesters = $(":checked").map(function (index,element){return element.value});
 
+        // if nothing is selected just hide all the rows
+        if(selectedSemesters.length==0){
+            $(".row.course").slideUp();
+        }else{
+            // get all courses HTML
+            var coursesHTML = $(".row.course");
+
+            // loop through each courses and make sure it's part of the selected filters
+            // otherwise hide it
+            for(var courseIdx=0;courseIdx<coursesHTML.length;courseIdx++){
+                // loop through each semester and test if it's the semester attribute
+                var course = coursesHTML[courseIdx];
+
+                for(var semesterIdx=0;semesterIdx<selectedSemesters.length;semesterIdx++){
+                    var semesterTest =  course.getAttribute("data-semester").indexOf(selectedSemesters[semesterIdx]);
+                    if(semesterTest>=0){
+                        course.setAttribute("data-filter","on");
+                        break;
+                    }else{
+                        course.setAttribute("data-filter","off");
+                    }
+                }
+
+            }
+            $(".row.course[data-filter='on']").slideDown();
+            $(".row.course[data-filter='off']").slideUp();
+        }
     };
 
     // populate semesterFilter Form
